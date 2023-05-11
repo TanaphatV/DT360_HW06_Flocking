@@ -38,4 +38,10 @@ public class FlockManager : MonoBehaviour
     {
         
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(0, 1, 0, 0.2f);
+        Gizmos.DrawCube(transform.position, swimLimits*2);
+    }
 }

@@ -54,15 +54,20 @@ public class Flock : MonoBehaviour
 
         }
 
-        if(nbSize > 0)
+        if (Physics.Raycast(transform.position, transform.forward,out RaycastHit hit, 1, LayerMask.GetMask("Obstacle")))
+        {
+            print("EVADE");
+            
+            Vector3 evadeDir = Vector3.Reflect(transform.forward, hit.normal + hit.point);
+            print("F:" + transform.forward + " E:" + evadeDir);
+            transform.rotation = /*Quaternion.LookRotation(evadeDir); */Quaternion.Slerp(this.transform.rotation,
+                                       Quaternion.LookRotation(evadeDir),
+                                       (1 - hit.distance) / hit.distance * Mathf.Deg2Rad * 180.0f);
+        }
+        else if (nbSize > 0)
         {
             nbCenter = nbCenter / nbSize;
             nbSpeed = nbSpeed / nbSize;
-
-            if(Physics.Raycast(transform.position,transform.forward,2,LayerMask.GetMask("Obstacle")))
-            {
-                //Vector3.Reflect();
-            }
 
             // computer target direction
             Vector3 targetDir = (nbCenter + nbAvoid) - this.transform.position;
