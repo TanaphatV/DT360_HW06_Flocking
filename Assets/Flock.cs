@@ -59,18 +59,19 @@ public class Flock : MonoBehaviour
             print("EVADE");
             
             Vector3 evadeDir = Vector3.Reflect(transform.forward, hit.normal + hit.point);
-            print("F:" + transform.forward + " E:" + evadeDir);
-            transform.rotation = /*Quaternion.LookRotation(evadeDir); */Quaternion.Slerp(this.transform.rotation,
+            transform.rotation = Quaternion.Slerp(this.transform.rotation,
                                        Quaternion.LookRotation(evadeDir),
-                                       (1 - hit.distance) / hit.distance * Mathf.Deg2Rad * 180.0f);
+                                       (1.0f - hit.distance) * 1.0f );
+
         }
+        
         else if (nbSize > 0)
         {
             nbCenter = nbCenter / nbSize;
             nbSpeed = nbSpeed / nbSize;
 
             // computer target direction
-            Vector3 targetDir = (nbCenter + nbAvoid) - this.transform.position;
+            Vector3 targetDir = (nbCenter + nbAvoid ) - this.transform.position;
 
             // turning toward target direction
             transform.rotation = Quaternion.Slerp( this.transform.rotation,
